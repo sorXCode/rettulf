@@ -1,50 +1,54 @@
 import 'package:flutter/material.dart';
 
-class MyApp extends StatelessWidget {
+class Stars extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Layout with Flutter',
-        home: Scaffold(
-          appBar: AppBar(
-            title: Text('Flutter LAyout'),
-          ),
-          body: Center(
+      title: 'Layout with Flutter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter LAyout'),
+        ),
+        body: Center(
             child: Row(
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text('Hello'),
-                    Icon(Icons.adb,
-                    color: Colors.blue,)
-                  ],
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(Icons.star, color:Colors.green[400]),
-                    Icon(Icons.star, color:Colors.green[400]),
-                    Icon(Icons.star, color:Colors.green[400]),
-                    Icon(Icons.star, color:Colors.black),
-                    Icon(Icons.star, color:Colors.black),
-                    // Expanded(
-                    //   // child: Image.asset('images/3.jpg'),
-                    // ),
-                    // Expanded(
-                    //   child: Image.asset('images/13.jpg'),
-                    // ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          // body: Center(
-          //   child: Text('Wlecome'),
-          // ),
-        ));
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Icon(Icons.star, color: Colors.green[400]),
+            Icon(Icons.star, color: Colors.green[400]),
+            Icon(Icons.star, color: Colors.red[400]),
+            Icon(Icons.star, color: Colors.black),
+            Icon(Icons.star, color: Colors.black),
+          ],
+        )),
+        backgroundColor: Colors.blue[50],
+      ),
+    );
   }
 }
 
+class Pic extends StatelessWidget {
+  const Pic({Key key}) : super(key: key);
 
-void main() => runApp(MyApp());
+  @override
+  Widget build(BuildContext context) {
+    return  MaterialApp(
+      title: 'Layout with Flutter',
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Flutter LAyout'),
+        ),
+        body: Center(
+          child: Column(
+          children: <Widget>[
+            Expanded(child: Image.asset('images/1.jpg')),
+            Expanded(child: Image.asset('images/13.jpg')),
+            Expanded(flex: 2, child: Image.asset('images/8.jpg'))
+          ],
+      ),
+        ),
+        floatingActionButton: Icon(Icons.star, color: Colors.blue)
+    ));
+  }
+}
+
+void main() => runApp(Pic());
