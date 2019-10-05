@@ -6,9 +6,12 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final wordPair = WordPair.random();
+//    final wordPair = WordPair.random();
     return MaterialApp(
       title: 'Welcome to Flutter',
+      theme: ThemeData(
+        primaryColor: Colors.deepPurpleAccent,
+      ),
       home: RandomWords(),
     );
   }
@@ -22,6 +25,7 @@ class RandomWords extends StatefulWidget {
 class RandomWordsState extends State<RandomWords> {
   final List<WordPair> _suggestions = <WordPair>[];
   final TextStyle _biggerFont = const TextStyle(fontSize: 18);
+  final Set<WordPair> _favorites = Set<WordPair>();
 
   Widget _buildSuggestions() {
     return ListView.builder(
@@ -46,17 +50,61 @@ class RandomWordsState extends State<RandomWords> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Business Namer"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.list),
+            onPressed: _pushFavorites,
+          )
+        ],
       ),
       body: _buildSuggestions(),
     );
   }
 
   Widget _buildRow(WordPair pair) {
+    final bool alreadySaved = _favorites.contains(pair);
     return ListTile(
       title: Text(
         pair.asPascalCase,
         style: _biggerFont,
       ),
+      trailing: Icon(
+        alreadySaved ? Icons.favorite : Icons.favorite_border,
+        color: alreadySaved ? Colors.red : null,
+      ),
+      onTap: () {
+        setState(() {
+          if (alreadySaved) {
+            _favorites.remove(pair);
+          } else {
+            _favorites.add(pair);
+          }
+        });
+      },
     );
+  }
+
+  void _pushFavorites() {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (BuildContext context) {
+      final Iterable<ListTile> tiles = _favorites.map((WordPair pair) {
+        return ListTile(
+          title: Text(
+            pair.asPascalCase,
+            style: _biggerFont,
+          ),
+        );
+      });
+      final List<Widget> divided =
+          ListTile.divideTiles(tiles: tiles, context: context).toList();
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Favorite names"),
+        ),
+        body: ListView(
+          children: divided,
+        ),
+      );
+    }));
   }
 }
